@@ -1,4 +1,5 @@
 const searchBox = document.querySelector('#search-bar');
+const searchDropdown = document.querySelector('#search-bar-dropdown');
 const submitButton = document.querySelector('#search-button');
 submitButton.addEventListener('click', (e) => {
     e.preventDefault();
@@ -6,16 +7,27 @@ submitButton.addEventListener('click', (e) => {
 })
 
 function fetchSearchResults(searchValue) {
-    return fetch(`https://api.github.com/search/users?q=${searchValue}`, {
-        headers: {
-            "Accept": "application/vnd.github.v3+json"
-        }
-    })
-    .then(resp => resp.json())
-    .then(data => renderSearchResult(data.items));
+    if(searchDropdown.value === "user") {
+        return fetch(`https://api.github.com/search/users?q=${searchValue}`, {
+            headers: {
+                "Accept": "application/vnd.github.v3+json"
+            }
+        })
+        .then(resp => resp.json())
+        .then(data => renderSearchUserResult(data.items));
+    }
+    else if(searchDropdown.value === "repos") {
+        return fetch(`https://api.github.com/search/repositories?q=${searchValue}`, {
+            headers: {
+                "Accept": "application/vnd.github.v3+json"
+            }
+        })
+        .then(resp => resp.json())
+        .then(data => renderSearchReposResult(data.items));
+    }
 }
 
-function renderSearchResult(users) {
+function renderSearchUserResult(users) {
     users.forEach(user => {
         const userList = document.querySelector('#user-list');
         const div = document.createElement('div');
@@ -60,6 +72,15 @@ function renderEntries(array) {
         const reposList = document.querySelector("#repos-list");
         const repoName = document.createElement("li");
         repoName.textContent = entry.full_name;
+        reposList.appendChild(repoName);
+    })
+}
+
+function renderSearchReposResult(repos) {
+    repos.forEach(repo => {
+        const reposList = document.querySelector("#repos-list");
+        const repoName = document.createElement("li");
+        repoName.innerHTML = `<a href="${repo.html_url}" target="_blank">${repo.html_url}</a>`;
         reposList.appendChild(repoName);
     })
 }
