@@ -30,6 +30,10 @@ function renderSearchResult(users) {
 function getUserName(user) {
     const userName = document.createElement('li');
     userName.innerHTML = `Login: <a href="${user.repos_url}" target="_blank">${user.login}</a>`;
+    userName.addEventListener("click", event => {
+        event.preventDefault();
+        fetchUserRepos(user);
+    })
     return userName;
 }
 
@@ -43,4 +47,19 @@ function getLinkToUserProfile(user) {
     const userProfile = document.createElement('li');
     userProfile.innerHTML = `<a href="${user.html_url}" target="_blank">Profile</a>`;
     return userProfile;
+}
+
+function fetchUserRepos(user) {
+    return fetch(`https://api.github.com/users/${user.login}/repos`)
+        .then(resp => resp.json())
+        .then(array => renderEntries(array));
+}
+
+function renderEntries(array) {
+    array.forEach(entry => {
+        const reposList = document.querySelector("#repos-list");
+        const repoName = document.createElement("li");
+        repoName.textContent = entry.full_name;
+        reposList.appendChild(repoName);
+    })
 }
