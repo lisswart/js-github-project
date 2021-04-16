@@ -1,4 +1,9 @@
-#main {
+body {
+  background-color: rgb(100, 42, 21);
+  color: rgb(252, 234, 201);
+}
+
+main {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,4 +15,35 @@
 
 ul {
   list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+img {
+  max-width: 8em;
+  max-height: 8em;
+  border-radius: 50%;
+}
+
+.user-container {
+  padding: 40px 40px 40px 40px;
+  margin-bottom: 9px;
+  border-width: 0.5em;
+  border-style: solid;
+  border-color: rgba(222, 184, 135, 0.6);
+  max-width: 200px;
+  min-width: 200px;
+  background-color: rgb(22, 14, 8);
+}
+
+a {
+  text-decoration: none;
+  color:coral;
+}
+
+a:hover {
+  text-decoration: none;
+  color: rgb(240, 30, 30);
 }
